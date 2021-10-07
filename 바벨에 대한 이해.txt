@@ -1,0 +1,176 @@
+1. babel이 뭘까? 
+
+- 공식 영어 문서 주소
+
+https://babeljs.io/docs/en/
+
+- 바벨 홈페이지 소스
+
+https://github.com/babel/website
+
+- docs 부분만 번역
+
+
+2. 바벨이 해결하는 문제
+
+크롬 브라우저에서 작동하는 자바스크립트로 작성한 JS 파일이 오래된 다른 브라우저에 작동되려면 해당 브라우저에서 인식할 수 있는 다른 문법의 자바스크립트 코드로 변환해야 하는 작업이 필요하다. 
+
+예를들어 홈페이지의 이용자가 사용하는 브라우저가 크롬이 아닌 microsoft의 edge를 사용한다면 크롬을 기반으로 만든 JS 파일은 Edge에서 오류를 발생하기 때문에 해당 브라우저의 이용자는 홈페이지를 이용할 수 없다.
+
+이러한 측면에서 바벨은 Cross Browser issue를 어느 정도 해소 해준다. 다만 바벨은 JS만 변환하기 때문에 html, css로 생기는 문제는 다른 모듈을 추가하여 사용해야 한다.
+
+
+
+3. 바벨의 주요 모듈(패키지) 3가지.
+
+바벨을 사용하기 위해서는 3가지 패키지들을 설치해야 한다. 
+
+1) 바벨의 핵심적인 기능을 담당 하는 (@babel/core) 
+
+2) 바벨을 cli로 사용할 수 있게 해주는 (@babel/cli)
+
+3) 바벨의 환경을 설정할 수 있게 해주는 (@babel/preset-env)
+
+
+아래의 명령어로 3개의 패키지들을 한번에 설치해주자.
+
+npm install --save-dev @babel/core @babel/cli @babel/preset-env
+
+
+
+
+
+
+
+
+
+
+. 바벨의 핵심 기능이 담긴 모듈((@babel/core))의 참조 모듈들 
+
+
+1) @babel/core의 설치 및 참조 패키지 목록
+
+babel.config.json 파일에서 대상이 되는 브라우저들의 리스트를 넣어서 사용할 수 있다. node.js 설치 후 빈 폴더에 npm i -D @babel/core 명령어를 입력하여 설치하자.
+
+@babel/core의 .json 파일을 열어보면 굉장히 많은 것들이 존재한다. 
+
+@babel/code-frame
+@babel/compat-data
+@babel/core
+@babel/generator
+@babel/helper-compilation-targets
+@babel/helper-function-name
+@babel/helper-get-function-arity
+@babel/helper-hoist-variables
+@babel/helper-member-expression-to-functions
+@babel/helper-module-imports
+@babel/helper-module-transforms
+@babel/helper-optimise-call-expression
+@babel/helper-replace-supers
+@babel/helper-simple-access
+@babel/helper-split-export-declaration
+@babel/helper-validator-identifier
+@babel/helper-validator-option
+@babel/helpers
+@babel/highlight
+@babel/parser
+@babel/template
+@babel/traverse
+@babel/types
+ansi-styles
+browserslist
+caniuse-lite
+chalk
+color-convert
+color-name
+convert-source-map
+debug
+electron-to-chromium
+escalade
+escape-string-regexp
+gensync
+globals
+has-flag
+js-tokens
+jsesc
+json5
+minimist
+ms
+node-releases
+picocolors
+safe-buffer
+semver
+source-map
+supports-color
+to-fast-properties
+
+이것들은 바벨 코어에 사용된 다른 패키지들이다. 각 패키지들마다 또 다른 패키지를 참조한다. 따라서 한 모듈이 참조하는 다른 모듈들까지 완전히 이해하는 것은 시간이 매우 오래걸린다.
+
+따라서 학습 목적에 따라 학습하는 것이 좋겠다. 만약 빠르게 사용 방법을 알고 싶다면 유튜브나 강의 영상을 보면서 사용법 위주로 공부를 하면 된다. 다만 중요한 것은 실제로 프로젝트를 진행할 때
+
+바벨을 어떻게 사용할 것인지에 대해서 규칙을 정해야 할 것이다.
+
+
+왜냐하면 A, B, C 와 같은 개발자들이 같은 바벨을 사용 하지만 적용하는 옵션에 따라 다른 코드로 컴파일될 것이기 때문이다. 우선은 대부분의 사람들이 알고 있는 기본적인 사용 방법을 습득하는 것을
+
+목표로 하자. 그런 다음 협업 프로젝트를 하면서 바벨 설정에 대해 어떻게 적용하는 것이 좋을지 의견을 나눈 이후에 결정하는 것이 좋겠다. 혼자서 개인 프로젝트를 할 때는 상관없지만 팀단위로 협업을
+
+할 때는 반드시 합의가 필요하다.
+
+
+
+
+2) @babel/core의 참조 패키지들의 공부 범위.
+
+참조된 패키지들을 살펴보면 맨 앞에 @babel이라는 접두사가 있는 패키지들이 있다. 해당 패키지들은 @babel이라는 패키지의 하위에 속하는 패키지들이다. 
+
+바벨 공식문서에 @babel 접두사가 있는 다른 패키지들을 찾아볼 수 있고 접두사가 없는 패키지들은 문서에 있을 수도 있고 없을 수도 있다.
+
+따라서 @babel 접두사가 존재하는 패키지들만 이해하는 것을 목표로 한다.
+
+
+
+3) 각 패키지별 예제 코드 실행 방법.
+
+
+
+
+4) 각 패키지별 설명 요약.
+
+@babel/code-frame
+
+문서 주소 : https://babeljs.io/docs/en/babel-code-frame#docsNav
+
+설치 : npm install --save-dev @babel/code-frame
+
+사용코드 : 
+
+import { codeFrameColumns } from "@babel/code-frame";
+
+const rawLines = `class Foo {
+  constructor()
+}`;
+const location = { start: { line: 2, column: 16 } };
+
+const result = codeFrameColumns(rawLines, location, {
+  /* options */
+});
+
+console.log(result);
+
+
+코드 분석 : 
+
+// 바벨 코어 프레임 패키지에서 codeFrameColumns를 import 키워드로 가져온다.
+// rawLines(원시 코드 줄) 변수에 ``(백틱)으로 코드들을 감싸 문자 데이터로 만들어서 넣는다.
+// location(위치) 변수에 객체 리터럴로 코드의 줄과 컬럼값을 입력한다. 
+// 호출한 codeFrameColumns 함수에 각 인자들을 넣어 실행한 결과를 콘솔로 출력한다. 
+
+
+
+
+
+
+
+
+
